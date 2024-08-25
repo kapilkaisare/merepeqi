@@ -1,6 +1,6 @@
 import { ReactNode, useState }from 'react'
 import './Table.css'
-import './CellTemplates.css'
+import { TableContolProps } from './TableControls'
 
 export type TableProps = {
   caption?: ReactNode
@@ -9,13 +9,16 @@ export type TableProps = {
   columnTemplates?: Record<string, React.FC<{value: any}>>
   isSelectable?: boolean
   isMultiSelect?: boolean
+  tableControl?: React.FC<TableContolProps>
 }
+
 
 const Table = (props: TableProps) => {
   const headers: string[] = props.columnTitles || Object.keys(props.data[0])
   const isSelectable: boolean = props.isSelectable || false
   const isMultiSelect: boolean = props.isMultiSelect || false
   const [selection, setSelection] = useState<number[]>([])
+  const TableControl = props.tableControl || null;
 
   const rowClickAction = (rowIndex: number) => {
     if (selection.includes(rowIndex)) {
@@ -43,7 +46,7 @@ const Table = (props: TableProps) => {
         }}
       >
       {
-        isMultiSelect && <td><input type='checkbox' checked={selection.includes(index)} /></td>
+        isMultiSelect && <td><input type='checkbox' checked={selection.includes(index)} readOnly={true}/></td>
       }
       {
         Object.entries(row).map((v: any, idx: number) => {
@@ -61,19 +64,26 @@ const Table = (props: TableProps) => {
 
   return (
     <table>
-      {
-        props.caption &&
-        <caption>{props.caption}</caption>
-      }
-      {
-        props.data && Array.isArray(props.data) &&
-        (<thead><tr>
-          {
-            isMultiSelect && <td></td>
-          }
-          { headers.map((header, idx) => <th key={`th-${idx}`}>{ header }</th>) }
-        </tr></thead>)
-      }
+      { props.caption && <caption>{ props.caption }</caption> }
+      { props.data && Array.isArray(props.data) && (
+        <thead>
+          { TableControl && (
+            <tr><td colSpan={headers.length}>
+              <TableControl
+                data={props.data}
+                isSelectable={props.isSelectable}
+                isMultiSelect={props.isMultiSelect}
+                selection={selection}
+                setSelection={setSelection}
+              />
+            </td></tr>
+          )}
+          <tr>
+            { isMultiSelect && <td></td> }
+            { headers.map((header, idx) => <th key={`th-${idx}`}>{ header }</th>) }
+          </tr>
+        </thead>
+      )}
       {
         props.data && Array.isArray(props.data) &&
         (<tbody>{ props.data.map((row, idx) => tr(row, idx)) }</tbody>)

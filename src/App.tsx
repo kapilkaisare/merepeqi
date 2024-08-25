@@ -1,6 +1,7 @@
 import './App.css'
 import { StatusCell } from './components/CellTemplates'
 import Table from './components/Table'
+import { SelectionControl } from './components/TableControls'
 import { data } from './mocks/data'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         }}
         isSelectable={true}
         isMultiSelect={true}
+        tableControl={SelectionControl}
       />
     </>
   )
