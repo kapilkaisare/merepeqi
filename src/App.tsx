@@ -18,6 +18,8 @@ function App() {
         columnTemplates={{
           'status': StatusCell
         }}
+        isSelectable={true}
+        isMultiSelect={true}
       />
     </>
   )
