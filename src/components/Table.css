@@ -1,0 +1,47 @@
+:root {
+  --table-border-style: solid;
+  --table-border-width: 1px;
+  --table-border-color: #CCCCCC;
+  --th-font-weight: normal;
+  --th-font-size: 0.8rem;
+  --th-text-align: left;
+  --td-padding-top: 0.5rem;
+  --td-padding-bottom: 0.5rem;
+  --td-padding-right: 1rem;
+  --td-padding-left: 1rem;
+  --td-font-size: 0.6rem;
+}
+
+table {
+  border-collapse: collapse;
+  border-style: var(--table-border-style);
+  border-width: var(--table-border-width);
+  border-color: var(--table-border-color);
+
+  thead {
+    th {
+      padding-top: var(--td-padding-top);
+      padding-bottom: var(--td-padding-bottom);
+      padding-right: var(--td-padding-top);
+      padding-left: var(--td-padding-bottom);
+      font-weight: var(--th-font-weight);
+      font-size: var(--th-font-size);
+      text-align: var(--th-text-align);
+    }
+  }
+
+  tbody {
+    tr {
+      border-style: var(--tr-border-style, var(--table-border-style));
+      border-width: var(--tr-border-width,  var(--table-border-width));
+
+      td {
+        padding-top: var(--td-padding-top);
+        padding-bottom: var(--td-padding-bottom);
+        padding-right: var(--td-padding-top);
+        padding-left: var(--td-padding-bottom);
+        font-size: var(--td-font-size);
+      }
+    }
+  }
+}
