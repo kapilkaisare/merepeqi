@@ -1,8 +1,14 @@
 .selection-control {
   display: flex;
   gap: 2rem;
+  align-items: center;
   padding-top: var(--td-padding-top);
   padding-bottom: var(--td-padding-bottom);
   padding-right: var(--td-padding-right);
   padding-left: var(--td-padding-left);
+
+  & button {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+  }
 }

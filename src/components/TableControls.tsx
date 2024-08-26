@@ -13,11 +13,21 @@ export const SelectionControl = (props: TableContolProps ) => {
   const selectionCount = props.selection.length
   const dataCount = props.data.length
   const toggleSelection = () => {
-    if (selectionCount > 0) {
-      props.setSelection([])
-    } else {
-      props.setSelection(props.data.map((_, idx) => idx))
+    props.setSelection((selectionCount > 0) ?
+      [] : props.data.map((_, idx) => idx)
+    )
+  }
+  const handleDownload = () => {
+    let output = 'No selected records available for download.'
+    const selectedAvailableRecords = props.data
+    .filter((_, idx) => props.selection.includes(idx))
+    .filter((r: any) => r.status === 'available')
+
+    if (selectedAvailableRecords.length > 0) {
+      output = selectedAvailableRecords.map((r: any) => `${r.path} (${r.device})`).join('\n')
     }
+
+    window.alert(output)
   }
 
   return (
@@ -39,8 +49,16 @@ export const SelectionControl = (props: TableContolProps ) => {
         onChange={toggleSelection}
       />
       {
+        selectionCount === 0 && (
+          <div>None Selected</div>
+        )
+      }
+      {
         selectionCount > 0 && (
-          <div>Selected { selectionCount }</div>
+          <>
+            <div>Selected { selectionCount }</div>
+            <button onClick={handleDownload}>Download Selected</button>
+          </>
         )
       }
     </div>
